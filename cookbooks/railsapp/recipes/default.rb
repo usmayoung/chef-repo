@@ -10,10 +10,9 @@ include_recipe "ruby_build"
 
 ruby_version = node["railsapp"]["ruby"]["version"]
 
-ruby_build_ruby(ruby_version) { prefix_path "/usr/local/ruby/" }
-
-bash "create_ruby_path" do
-  code "export PATH=$PATH:/usr/local/ruby/"+ruby_version+"/bin/ruby"
+ruby_build_ruby(ruby_version) do
+  prefix_path "/usr/local/ruby/"+ruby_version
+  action      :install
 end
 
 bash "update-rubygems" do
