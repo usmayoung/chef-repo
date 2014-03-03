@@ -7,6 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 include_recipe "ruby_build"
+include_recipe "nginx"
 include_recipe "mysql::client"
 include_recipe "mysql::server"
 include_recipe "mysql::ruby"
@@ -14,8 +15,12 @@ include_recipe "mysql::ruby"
 ruby_version = node["railsapp"]["ruby"]["version"]
 
 ruby_build_ruby(ruby_version) do
-  prefix_path "/usr/local/ruby/"+ruby_version
+  prefix_path "/usr/local/bin"
   action      :install
+end
+
+bash "create-ruby-path" do
+  code "export PATH=$PATH:/usr/local/ruby/"+ruby_version+"/bin"
 end
 
 bash "update-rubygems" do
